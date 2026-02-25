@@ -482,7 +482,9 @@
                     <div class="form-title">Send us a message</div>
                     <div class="form-subtitle">Fill in the form and we'll get back to you shortly.</div>
 
-                    <form id="contact-form" action="mailto:info@itinirare.com" method="POST" enctype="text/plain">
+                    <div id="form-error" style="display:none; background:#fef2f2; border:1px solid #fecaca; border-radius:10px; padding:12px 16px; margin-bottom:16px; font-size:0.85rem; color:#dc2626;"></div>
+
+                    <form id="contact-form">
                         <div class="form-row">
                             <div class="form-group">
                                 <label>First name <span class="req">*</span></label>
@@ -520,7 +522,7 @@
                         </div>
 
                         <div class="form-actions">
-                            <button type="submit" class="btn-submit">
+                            <button type="submit" class="btn-submit" id="submit-btn">
                                 Send message
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 2 11 13M22 2 15 22l-4-9-9-4 20-7z"/></svg>
                             </button>
@@ -550,14 +552,50 @@
     </footer>
 
     <script>
-        // Show success state after form submission
         const form = document.getElementById('contact-form');
-        form.addEventListener('submit', (e) => {
-            // Let mailto action open, then show a thank-you in the UI
-            setTimeout(() => {
-                form.style.display = 'none';
-                document.getElementById('form-success').style.display = 'block';
-            }, 300);
+        const submitBtn = document.getElementById('submit-btn');
+        const errorBox = document.getElementById('form-error');
+        const successBox = document.getElementById('form-success');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            errorBox.style.display = 'none';
+
+            // Gather form data
+            const data = {
+                first_name: form.first_name.value.trim(),
+                last_name:  form.last_name.value.trim(),
+                email:      form.email.value.trim(),
+                topic:      form.topic.value,
+                message:    form.message.value.trim(),
+            };
+
+            // Loading state
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending…';
+
+            try {
+                const res = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data),
+                });
+
+                const json = await res.json();
+
+                if (res.ok) {
+                    form.style.display = 'none';
+                    errorBox.style.display = 'none';
+                    successBox.style.display = 'block';
+                } else {
+                    throw new Error(json.error || 'Something went wrong. Please try again.');
+                }
+            } catch (err) {
+                errorBox.textContent = err.message;
+                errorBox.style.display = 'block';
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Send message <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:17px;height:17px;display:inline;vertical-align:middle;margin-left:6px;"><path d="M22 2 11 13M22 2 15 22l-4-9-9-4 20-7z"/></svg>';
+            }
         });
     </script>
 </body>
