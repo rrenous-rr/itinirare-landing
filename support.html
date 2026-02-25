@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support — Itinirare</title>
+    <meta name="description" content="Get help with Itinirare. Find answers to common questions about your travel companion app.">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <style>
+        :root {
+            --ink: #0f172a;
+            --ink-mid: #334155;
+            --ink-light: #64748b;
+            --teal: #0d9488;
+            --teal-bg: #f0fdfa;
+            --purple: #6366f1;
+            --purple-bg: #eef2ff;
+            --accent: #f59e0b;
+            --surface: #ffffff;
+            --surface-alt: #f8fafc;
+            --border: #e2e8f0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            color: var(--ink);
+            line-height: 1.6;
+            background: var(--surface);
+        }
+
+        .container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+        .container-narrow { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+
+        /* Header */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 14px 0;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo img { width: 32px; height: 32px; border-radius: 8px; }
+
+        .logo span {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--ink);
+            letter-spacing: -0.02em;
+        }
+
+        nav { display: flex; align-items: center; gap: 4px; }
+
+        nav a {
+            color: var(--ink-light);
+            text-decoration: none;
+            font-size: 0.88rem;
+            padding: 6px 12px;
+            border-radius: 8px;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        nav a:hover { color: var(--ink); background: var(--surface-alt); }
+
+        .nav-active { color: var(--ink) !important; font-weight: 600 !important; }
+
+        .nav-cta {
+            background: var(--ink) !important;
+            color: #fff !important;
+            font-weight: 600 !important;
+            margin-left: 6px;
+        }
+
+        .nav-cta:hover { background: var(--ink-mid) !important; }
+
+        /* Hero */
+        .page-hero {
+            background: var(--surface-alt);
+            border-bottom: 1px solid var(--border);
+            padding: 64px 0 56px;
+            text-align: center;
+        }
+
+        .page-hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--teal-bg);
+            border: 1px solid #99f6e4;
+            color: var(--teal);
+            font-size: 0.74rem;
+            font-weight: 600;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+            padding: 5px 14px;
+            border-radius: 100px;
+            margin-bottom: 20px;
+        }
+
+        .page-hero h1 {
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            font-weight: 800;
+            color: var(--ink);
+            letter-spacing: -0.03em;
+            margin-bottom: 12px;
+        }
+
+        .page-hero p {
+            font-size: 1.05rem;
+            color: var(--ink-light);
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        /* Search bar */
+        .search-wrap {
+            max-width: 480px;
+            margin: 28px auto 0;
+            position: relative;
+        }
+
+        .search-wrap input {
+            width: 100%;
+            padding: 13px 20px 13px 44px;
+            border-radius: 14px;
+            border: 1.5px solid var(--border);
+            background: var(--surface);
+            font-size: 0.93rem;
+            color: var(--ink);
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            font-family: inherit;
+        }
+
+        .search-wrap input:focus {
+            border-color: var(--teal);
+            box-shadow: 0 0 0 3px rgba(13,148,136,0.1);
+        }
+
+        .search-wrap input::placeholder { color: var(--ink-light); }
+
+        .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--ink-light);
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Main content */
+        main { padding: 64px 0 96px; }
+
+        /* Category pills */
+        .categories {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 48px;
+        }
+
+        .cat-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 16px;
+            border-radius: 100px;
+            border: 1.5px solid var(--border);
+            background: var(--surface);
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--ink-mid);
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .cat-pill:hover, .cat-pill.active {
+            background: var(--ink);
+            color: #fff;
+            border-color: var(--ink);
+        }
+
+        /* FAQ groups */
+        .faq-group { margin-bottom: 52px; }
+
+        .faq-group-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .faq-group-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .icon-bg-teal { background: var(--teal-bg); }
+        .icon-bg-purple { background: var(--purple-bg); }
+        .icon-bg-amber { background: #fef3c7; }
+        .icon-bg-rose { background: #fff1f2; }
+
+        .faq-group-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        /* FAQ items */
+        .faq-item {
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            margin-bottom: 8px;
+            overflow: hidden;
+            background: var(--surface);
+        }
+
+        .faq-question {
+            width: 100%;
+            text-align: left;
+            padding: 18px 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            font-family: inherit;
+            font-size: 0.93rem;
+            font-weight: 600;
+            color: var(--ink);
+            transition: background 0.15s;
+        }
+
+        .faq-question:hover { background: var(--surface-alt); }
+
+        .faq-chevron {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+            color: var(--ink-light);
+            transition: transform 0.25s;
+        }
+
+        .faq-item.open .faq-chevron { transform: rotate(180deg); }
+
+        .faq-answer {
+            display: none;
+            padding: 0 20px 18px;
+            font-size: 0.9rem;
+            color: var(--ink-light);
+            line-height: 1.7;
+            border-top: 1px solid var(--border);
+        }
+
+        .faq-answer p { margin-bottom: 10px; }
+        .faq-answer p:last-child { margin-bottom: 0; }
+
+        .faq-answer ul {
+            margin: 8px 0 10px 20px;
+        }
+
+        .faq-answer li { margin-bottom: 6px; }
+
+        .faq-item.open .faq-answer { display: block; }
+
+        /* Still need help */
+        .still-need-help {
+            background: linear-gradient(135deg, var(--teal-bg) 0%, #e0f2fe 100%);
+            border: 1px solid #99f6e4;
+            border-radius: 24px;
+            padding: 48px;
+            text-align: center;
+            margin-top: 16px;
+        }
+
+        .still-need-help h2 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--ink);
+            letter-spacing: -0.02em;
+            margin-bottom: 10px;
+        }
+
+        .still-need-help p {
+            color: var(--ink-light);
+            font-size: 0.97rem;
+            margin-bottom: 28px;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .help-cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            max-width: 520px;
+            margin: 0 auto;
+        }
+
+        .help-card {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid var(--border);
+            text-decoration: none;
+            text-align: left;
+            transition: all 0.2s;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .help-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+        }
+
+        .help-card-icon {
+            font-size: 1.3rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .help-card h3 {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 2px;
+        }
+
+        .help-card p {
+            font-size: 0.78rem;
+            color: var(--ink-light);
+            margin: 0;
+        }
+
+        /* Footer */
+        footer {
+            padding: 32px 0;
+            background: var(--surface-alt);
+            border-top: 1px solid var(--border);
+        }
+
+        footer .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        footer .copyright { color: var(--ink-light); font-size: 0.82rem; }
+
+        footer .links { display: flex; gap: 4px; flex-wrap: wrap; }
+
+        footer .links a {
+            color: var(--ink-light);
+            text-decoration: none;
+            font-size: 0.82rem;
+            padding: 4px 10px;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        footer .links a:hover { color: var(--ink); background: var(--border); }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .page-hero { padding: 48px 0 40px; }
+            main { padding: 48px 0 72px; }
+            .still-need-help { padding: 32px 24px; }
+            .help-cards { grid-template-columns: 1fr; }
+            header .container { flex-direction: column; gap: 10px; }
+            nav { flex-wrap: wrap; justify-content: center; }
+            footer .container { flex-direction: column; text-align: center; }
+            footer .links { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="favicon.png" alt="Itinirare">
+                <span>Itinirare</span>
+            </a>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="support.html" class="nav-active">Support</a>
+                <a href="contact.html">Contact</a>
+                <a href="#download" class="nav-cta">Download</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="page-hero">
+        <div class="container">
+            <div class="page-hero-eyebrow">💬 Help Center</div>
+            <h1>How can we help?</h1>
+            <p>Find answers to common questions about Itinirare, or get in touch with our team.</p>
+            <div class="search-wrap">
+                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                <input type="text" id="faq-search" placeholder="Search for answers…" autocomplete="off">
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <div class="container-narrow">
+
+            <div class="categories">
+                <a href="#getting-started" class="cat-pill">🚀 Getting Started</a>
+                <a href="#import" class="cat-pill">📬 Email Import</a>
+                <a href="#trips" class="cat-pill">🗓️ Trips &amp; Bookings</a>
+                <a href="#sharing" class="cat-pill">👥 Sharing</a>
+                <a href="#account" class="cat-pill">👤 Account</a>
+            </div>
+
+            <!-- Getting Started -->
+            <div class="faq-group" id="getting-started">
+                <div class="faq-group-header">
+                    <div class="faq-group-icon icon-bg-teal">🚀</div>
+                    <div class="faq-group-title">Getting Started</div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        What is Itinirare?
+                        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Itinirare is a <strong>travel companion app</strong> — not a trip planner. It keeps all your existing bookings and reservations beautifully organized in one place, in a day-by-day timeline.</p>
+                        <p>You book your trips wherever you normally do (airline websites, Booking.com, OpenTable, etc.), then forward your confirmation emails to Itinirare. We parse them automatically and build your itinerary for you.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        How do I create my first trip?
+                        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Tap the <strong>+</strong> button on the Trips screen and give your trip a name and destination. Once it's created, you can add bookings to it by forwarding confirmation emails via the Smart Import tab, or by adding them manually.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Is Itinirare free to use?
+                        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Itinirare is free to download and use. Some advanced features may be available as part of a premium plan. Check the app for the latest information on pricing and what's included.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Which platforms is Itinirare available on?
+                        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Itinirare is available on <strong>iOS</strong> (App Store) and <strong>Android</strong> (Google Play). Your trips sync across devices when you're signed into the same account.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Email Import -->
+            <div class="faq-group" id="import">
+                <div class="faq-group-header">
+                    <div class="faq-group-icon icon-bg-purple">📬</div>
+                    <div class="faq-group-title">Email Import</div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        How does email import work?
+                        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Every Itinirare account has a personal import email address (found in the Smart Import tab). When you receive a booking confirmation, simply forward it to that address.</p>
+                        <p>We automatically extract the booking details — dates, confirmation codes, locations, times — and add the item to the matching trip in your account.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        What booking types can I import?
+                        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Itinirare supports a wide range of booking types:</p>
+                        <ul>
+                            <li>✈️ Flights</li>
+                            <li>🏨 Hotels &amp; accommodation</li>
+                            <li>🚗 Car rentals</li>
+                            <li>🚂 Trains &amp; buses</li>
+                            <li>🚢 Cruises</li>
+                            <li>🍽️ Restaurant reservations</li>
+                            <li>🎭 Activities, tours &amp; events</li>
+                            <li>📋 Meetings &amp; appointments</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Can I import PDF attachments?
+                        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes! If your confirmation arrived as a PDF attachment (e.g. a flight e-ticket or hotel voucher), just forward the email with the PDF attached. Itinirare will extract the details from the attachment as well.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        How does Itinirare know which trip to add the booking to?
+                        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Itinirare matches the booking dates against your existing trips automatically. If your flight departs on April 2nd and you have a trip from April 2–9, the booking will be placed in that trip.</p>
+                        <p>If no matching trip is found, the booking will appear in your inbox for you to assign manually.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trips & Bookings -->
+            <div class="faq-group" id="trips">
+                <div class="faq-group-header">
+                    <div class="faq-group-icon icon-bg-amber">🗓️</div>
+                    <div class="faq-group-title">Trips &amp; Bookings</div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Can I add bookings manually without an email?
+                        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes. Tap the <strong>+</strong> button on any day in your trip timeline to add a booking manually. Choose the type (flight, hotel, restaurant, etc.) and fill in the details.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Does Itinirare work offline?
+                        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes. Your trip data is stored on your device and fully accessible without an internet connection. This is especially useful when travelling internationally or in areas with poor coverage.</p>
+                        <p>Weather forecasts and AI tips require a connection to refresh, but your bookings and timeline are always available offline.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Where does the weather data come from?
+                        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Weather forecasts are fetched automatically based on the destination and dates of each trip. Itinirare also surfaces local public holidays for each destination, so you're aware of any potential closures or changes to opening hours.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        What are the AI day tips?
+                        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>For each day of your trip, Itinirare generates context-aware tips — nearby restaurant picks, activity suggestions, local insights, and practical advice — tailored to your destination, the time of year, and the gaps in your schedule.</p>
+                        <p>Tips are aware of what you've already booked, so they focus on what you haven't planned yet.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sharing -->
+            <div class="faq-group" id="sharing">
+                <div class="faq-group-header">
+                    <div class="faq-group-icon icon-bg-rose">👥</div>
+                    <div class="faq-group-title">Sharing &amp; Travelers</div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        How do I share a trip with someone?
+                        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Open the trip, tap the share icon, and choose whether to generate a <strong>view-only</strong> or <strong>edit</strong> link. Send that link to anyone — they can open the full itinerary in their browser without needing to install Itinirare or create an account.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Can I set my share link to expire?
+                        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes. When generating a share link, you can set an expiry date. After that date, the link will no longer work. You can also revoke a link at any time from the trip settings.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        What's the difference between adding a traveler and sharing a link?
+                        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p><strong>Adding a traveler</strong> registers a person on the trip — you can assign specific bookings to them and their name appears throughout the itinerary. This is for people actually on the trip.</p>
+                        <p><strong>Sharing a link</strong> gives someone access to view or edit the itinerary. This is useful for anyone who needs to see the trip (family members, travel agents, etc.) regardless of whether they're traveling with you.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account -->
+            <div class="faq-group" id="account">
+                <div class="faq-group-header">
+                    <div class="faq-group-icon icon-bg-teal">👤</div>
+                    <div class="faq-group-title">Account &amp; Privacy</div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Is my data secure?
+                        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes. Your trip data is encrypted in transit and at rest. We do not sell your personal information to third parties. See our <a href="privacy.html" style="color: var(--teal);">Privacy Policy</a> for full details.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        How do I delete my account?
+                        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>You can delete your account at any time from <strong>Profile → Settings → Delete Account</strong> in the app. This will permanently remove all your data from our servers. If you have trouble, contact us at <a href="mailto:support@itinirare.com" style="color: var(--teal);">support@itinirare.com</a>.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Can I export my trip data?
+                        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes. You can export any trip as a PDF or share it via a link. A full data export option is available from your Profile settings.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Still need help -->
+            <div class="still-need-help">
+                <h2>Still need help?</h2>
+                <p>Can't find what you're looking for? Our support team is happy to help.</p>
+                <div class="help-cards">
+                    <a href="mailto:support@itinirare.com" class="help-card">
+                        <div class="help-card-icon">✉️</div>
+                        <div>
+                            <h3>Email Support</h3>
+                            <p>support@itinirare.com</p>
+                        </div>
+                    </a>
+                    <a href="contact.html" class="help-card">
+                        <div class="help-card-icon">💬</div>
+                        <div>
+                            <h3>Contact Us</h3>
+                            <p>Send us a message</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="copyright">© 2026 Itinirare. All rights reserved.</div>
+            <div class="links">
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="terms.html">Terms of Service</a>
+                <a href="contact.html">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // FAQ accordion
+        document.querySelectorAll('.faq-question').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const item = btn.closest('.faq-item');
+                const isOpen = item.classList.contains('open');
+                // Close all
+                document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+                // Open clicked (unless it was already open)
+                if (!isOpen) item.classList.add('open');
+            });
+        });
+
+        // Search filter
+        const searchInput = document.getElementById('faq-search');
+        searchInput.addEventListener('input', () => {
+            const q = searchInput.value.toLowerCase().trim();
+            document.querySelectorAll('.faq-item').forEach(item => {
+                const text = item.innerText.toLowerCase();
+                item.style.display = (!q || text.includes(q)) ? '' : 'none';
+            });
+            document.querySelectorAll('.faq-group').forEach(group => {
+                const visible = [...group.querySelectorAll('.faq-item')].some(i => i.style.display !== 'none');
+                group.style.display = visible ? '' : 'none';
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact — Itinirare</title>
+    <meta name="description" content="Get in touch with the Itinirare team. We're here to help.">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <style>
+        :root {
+            --ink: #0f172a;
+            --ink-mid: #334155;
+            --ink-light: #64748b;
+            --teal: #0d9488;
+            --teal-bg: #f0fdfa;
+            --purple: #6366f1;
+            --purple-bg: #eef2ff;
+            --accent: #f59e0b;
+            --surface: #ffffff;
+            --surface-alt: #f8fafc;
+            --border: #e2e8f0;
+            --error: #ef4444;
+            --success: #10b981;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            color: var(--ink);
+            line-height: 1.6;
+            background: var(--surface);
+        }
+
+        .container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+        .container-narrow { max-width: 720px; margin: 0 auto; padding: 0 24px; }
+
+        /* Header */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 14px 0;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo img { width: 32px; height: 32px; border-radius: 8px; }
+
+        .logo span {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--ink);
+            letter-spacing: -0.02em;
+        }
+
+        nav { display: flex; align-items: center; gap: 4px; }
+
+        nav a {
+            color: var(--ink-light);
+            text-decoration: none;
+            font-size: 0.88rem;
+            padding: 6px 12px;
+            border-radius: 8px;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        nav a:hover { color: var(--ink); background: var(--surface-alt); }
+
+        .nav-active { color: var(--ink) !important; font-weight: 600 !important; }
+
+        .nav-cta {
+            background: var(--ink) !important;
+            color: #fff !important;
+            font-weight: 600 !important;
+            margin-left: 6px;
+        }
+
+        .nav-cta:hover { background: var(--ink-mid) !important; }
+
+        /* Page hero */
+        .page-hero {
+            background: var(--surface-alt);
+            border-bottom: 1px solid var(--border);
+            padding: 64px 0 56px;
+            text-align: center;
+        }
+
+        .page-hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--purple-bg);
+            border: 1px solid #c7d2fe;
+            color: var(--purple);
+            font-size: 0.74rem;
+            font-weight: 600;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+            padding: 5px 14px;
+            border-radius: 100px;
+            margin-bottom: 20px;
+        }
+
+        .page-hero h1 {
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            font-weight: 800;
+            color: var(--ink);
+            letter-spacing: -0.03em;
+            margin-bottom: 12px;
+        }
+
+        .page-hero p {
+            font-size: 1.05rem;
+            color: var(--ink-light);
+            max-width: 440px;
+            margin: 0 auto;
+        }
+
+        /* Main */
+        main { padding: 64px 0 96px; }
+
+        /* Contact layout */
+        .contact-layout {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 56px;
+            align-items: flex-start;
+        }
+
+        /* Contact info sidebar */
+        .contact-info { display: flex; flex-direction: column; gap: 14px; }
+
+        .contact-card {
+            background: var(--surface-alt);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.07);
+            border-color: transparent;
+        }
+
+        .contact-card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .icon-teal { background: var(--teal-bg); }
+        .icon-purple { background: var(--purple-bg); }
+        .icon-amber { background: #fef3c7; }
+
+        .contact-card-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+            color: var(--ink-light);
+            margin-bottom: 3px;
+        }
+
+        .contact-card-value {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .contact-card-desc {
+            font-size: 0.78rem;
+            color: var(--ink-light);
+            margin-top: 2px;
+        }
+
+        .response-note {
+            background: var(--teal-bg);
+            border: 1px solid #99f6e4;
+            border-radius: 12px;
+            padding: 14px 16px;
+            font-size: 0.82rem;
+            color: var(--ink-mid);
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-top: 4px;
+        }
+
+        .response-note span { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+
+        /* Form */
+        .contact-form-wrap {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.05);
+        }
+
+        .form-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 4px;
+        }
+
+        .form-subtitle {
+            font-size: 0.88rem;
+            color: var(--ink-light);
+            margin-bottom: 28px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-group { margin-bottom: 18px; }
+
+        .form-group label {
+            display: block;
+            font-size: 0.83rem;
+            font-weight: 600;
+            color: var(--ink-mid);
+            margin-bottom: 6px;
+        }
+
+        .form-group label .req {
+            color: var(--error);
+            margin-left: 2px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 11px 14px;
+            border-radius: 10px;
+            border: 1.5px solid var(--border);
+            background: var(--surface-alt);
+            font-size: 0.9rem;
+            color: var(--ink);
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--teal);
+            background: var(--surface);
+            box-shadow: 0 0 0 3px rgba(13,148,136,0.1);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder { color: var(--ink-light); }
+
+        .form-group select { appearance: none; cursor: pointer; }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 130px;
+        }
+
+        .select-wrap { position: relative; }
+
+        .select-wrap::after {
+            content: '';
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 6px solid var(--ink-light);
+            pointer-events: none;
+        }
+
+        .form-actions { margin-top: 8px; }
+
+        .btn-submit {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 13px 28px;
+            border-radius: 12px;
+            background: var(--ink);
+            color: #fff;
+            font-size: 0.93rem;
+            font-weight: 600;
+            font-family: inherit;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-submit:hover {
+            background: var(--ink-mid);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 24px rgba(15,23,42,0.18);
+        }
+
+        .btn-submit svg { width: 17px; height: 17px; }
+
+        /* Success state */
+        .form-success {
+            display: none;
+            text-align: center;
+            padding: 32px 0;
+        }
+
+        .success-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: #d1fae5;
+            color: var(--success);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 1.5rem;
+        }
+
+        .form-success h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 8px;
+        }
+
+        .form-success p {
+            font-size: 0.9rem;
+            color: var(--ink-light);
+        }
+
+        /* Footer */
+        footer {
+            padding: 32px 0;
+            background: var(--surface-alt);
+            border-top: 1px solid var(--border);
+        }
+
+        footer .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        footer .copyright { color: var(--ink-light); font-size: 0.82rem; }
+        footer .links { display: flex; gap: 4px; flex-wrap: wrap; }
+
+        footer .links a {
+            color: var(--ink-light);
+            text-decoration: none;
+            font-size: 0.82rem;
+            padding: 4px 10px;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        footer .links a:hover { color: var(--ink); background: var(--border); }
+
+        /* Responsive */
+        @media (max-width: 800px) {
+            .contact-layout {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .contact-info {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .response-note { grid-column: 1 / -1; }
+        }
+
+        @media (max-width: 640px) {
+            .page-hero { padding: 48px 0 40px; }
+            main { padding: 48px 0 72px; }
+            .contact-form-wrap { padding: 28px 20px; }
+            .form-row { grid-template-columns: 1fr; }
+            .contact-info { grid-template-columns: 1fr; }
+            header .container { flex-direction: column; gap: 10px; }
+            nav { flex-wrap: wrap; justify-content: center; }
+            footer .container { flex-direction: column; text-align: center; }
+            footer .links { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="favicon.png" alt="Itinirare">
+                <span>Itinirare</span>
+            </a>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="support.html">Support</a>
+                <a href="contact.html" class="nav-active">Contact</a>
+                <a href="index.html#download" class="nav-cta">Download</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="page-hero">
+        <div class="container">
+            <div class="page-hero-eyebrow">✉️ Get in Touch</div>
+            <h1>We'd love to hear from you</h1>
+            <p>Whether it's a question, a suggestion, or just a hello — we're here.</p>
+        </div>
+    </div>
+
+    <main>
+        <div class="container-narrow">
+            <div class="contact-layout">
+
+                <!-- Sidebar -->
+                <div class="contact-info">
+                    <a href="mailto:support@itinirare.com" class="contact-card">
+                        <div class="contact-card-icon icon-teal">🛟</div>
+                        <div>
+                            <div class="contact-card-label">Support</div>
+                            <div class="contact-card-value">support@itinirare.com</div>
+                            <div class="contact-card-desc">App issues, bugs, help with features</div>
+                        </div>
+                    </a>
+                    <a href="mailto:info@itinirare.com" class="contact-card">
+                        <div class="contact-card-icon icon-purple">💼</div>
+                        <div>
+                            <div class="contact-card-label">General</div>
+                            <div class="contact-card-value">info@itinirare.com</div>
+                            <div class="contact-card-desc">Partnerships, press, everything else</div>
+                        </div>
+                    </a>
+                    <div class="response-note">
+                        <span>⏱️</span>
+                        We typically respond within 1–2 business days.
+                    </div>
+                </div>
+
+                <!-- Form -->
+                <div class="contact-form-wrap">
+                    <div class="form-title">Send us a message</div>
+                    <div class="form-subtitle">Fill in the form and we'll get back to you shortly.</div>
+
+                    <form id="contact-form" action="mailto:info@itinirare.com" method="POST" enctype="text/plain">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>First name <span class="req">*</span></label>
+                                <input type="text" name="first_name" placeholder="Jane" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Last name <span class="req">*</span></label>
+                                <input type="text" name="last_name" placeholder="Smith" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Email address <span class="req">*</span></label>
+                            <input type="email" name="email" placeholder="jane@example.com" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Topic <span class="req">*</span></label>
+                            <div class="select-wrap">
+                                <select name="topic" required>
+                                    <option value="" disabled selected>Select a topic…</option>
+                                    <option value="support">App support / bug report</option>
+                                    <option value="feature">Feature request</option>
+                                    <option value="account">Account &amp; billing</option>
+                                    <option value="press">Press &amp; media</option>
+                                    <option value="partnership">Partnership</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Message <span class="req">*</span></label>
+                            <textarea name="message" placeholder="Tell us what's on your mind…" required></textarea>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn-submit">
+                                Send message
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 2 11 13M22 2 15 22l-4-9-9-4 20-7z"/></svg>
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="form-success" id="form-success">
+                        <div class="success-icon">✓</div>
+                        <h3>Message sent!</h3>
+                        <p>Thanks for reaching out. We'll get back to you within 1–2 business days.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="copyright">© 2026 Itinirare. All rights reserved.</div>
+            <div class="links">
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="terms.html">Terms of Service</a>
+                <a href="support.html">Support</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Show success state after form submission
+        const form = document.getElementById('contact-form');
+        form.addEventListener('submit', (e) => {
+            // Let mailto action open, then show a thank-you in the UI
+            setTimeout(() => {
+                form.style.display = 'none';
+                document.getElementById('form-success').style.display = 'block';
+            }, 300);
+        });
+    </script>
+</body>
+</html>
