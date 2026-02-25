@@ -3,41 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Itinirare - Your Travel Companion</title>
-    <meta name="description" content="Plan and organize your trips effortlessly with Itinirare. Create itineraries, manage travel documents, and share your adventures.">
+    <title>Itinirare — Your Travel Companion</title>
+    <meta name="description" content="Itinirare keeps all your bookings, reservations, and travel details beautifully organized — so you can focus on the journey, not the logistics.">
     <link rel="icon" type="image/png" href="/favicon.png">
     <style>
         :root {
-            --primary: #2563eb;
-            --primary-dark: #1d4ed8;
-            --text: #1f2937;
-            --text-light: #6b7280;
-            --bg: #ffffff;
-            --bg-alt: #f9fafb;
+            --ink: #0f172a;
+            --ink-mid: #334155;
+            --ink-light: #64748b;
+            --accent: #f59e0b;
+            --accent-dark: #d97706;
+            --teal: #0d9488;
+            --teal-bg: #f0fdfa;
+            --purple: #6366f1;
+            --purple-bg: #eef2ff;
+            --surface: #ffffff;
+            --surface-alt: #f8fafc;
+            --surface-warm: #fffbf5;
+            --border: #e2e8f0;
+            --border-light: #f1f5f9;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            color: var(--text);
+            color: var(--ink);
             line-height: 1.6;
+            overflow-x: hidden;
+            background: var(--surface);
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1160px;
             margin: 0 auto;
             padding: 0 24px;
         }
 
-        /* Header */
+        /* ── Header ── */
         header {
-            padding: 20px 0;
-            border-bottom: 1px solid #e5e7eb;
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            padding: 14px 0;
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
         }
 
         header .container {
@@ -49,179 +62,734 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             text-decoration: none;
-            color: var(--text);
         }
 
         .logo img {
-            width: 40px;
-            height: 40px;
+            width: 34px;
+            height: 34px;
             border-radius: 8px;
         }
 
         .logo span {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             font-weight: 700;
+            color: var(--ink);
+            letter-spacing: -0.02em;
         }
+
+        nav { display: flex; align-items: center; gap: 4px; }
 
         nav a {
-            color: var(--text-light);
+            color: var(--ink-light);
             text-decoration: none;
-            margin-left: 32px;
-            transition: color 0.2s;
+            font-size: 0.88rem;
+            padding: 7px 14px;
+            border-radius: 8px;
+            transition: all 0.2s;
+            font-weight: 500;
         }
 
-        nav a:hover {
-            color: var(--primary);
+        nav a:hover { color: var(--ink); background: var(--surface-alt); }
+
+        .nav-cta {
+            background: var(--ink) !important;
+            color: #fff !important;
+            font-weight: 600 !important;
+            margin-left: 8px;
         }
 
-        /* Hero */
+        .nav-cta:hover {
+            background: var(--ink-mid) !important;
+            color: #fff !important;
+        }
+
+        /* ── Hero ── */
         .hero {
-            padding: 80px 0;
+            padding: 148px 0 96px;
             text-align: center;
-            background: linear-gradient(180deg, var(--bg) 0%, var(--bg-alt) 100%);
+            background: var(--surface);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 100%;
+            background:
+                radial-gradient(ellipse 70% 50% at 50% -10%, rgba(99,102,241,0.07) 0%, transparent 70%),
+                radial-gradient(ellipse 50% 40% at 80% 80%, rgba(245,158,11,0.06) 0%, transparent 60%),
+                radial-gradient(ellipse 40% 40% at 10% 90%, rgba(13,148,136,0.05) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--teal-bg);
+            border: 1px solid #99f6e4;
+            color: var(--teal);
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+            padding: 6px 16px;
+            border-radius: 100px;
+            margin-bottom: 28px;
         }
 
         .hero h1 {
-            font-size: 3.5rem;
+            font-size: clamp(2.6rem, 6vw, 4.2rem);
             font-weight: 800;
+            color: var(--ink);
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 12px;
+        }
+
+        .hero h1 .highlight {
+            background: linear-gradient(135deg, #f59e0b, #f97316);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-sub {
+            font-size: 1rem;
+            color: var(--ink-light);
+            font-weight: 500;
             margin-bottom: 24px;
-            color: var(--text);
+            letter-spacing: 0.01em;
         }
 
-        .hero h1 span {
-            color: var(--primary);
-        }
-
-        .hero p {
-            font-size: 1.25rem;
-            color: var(--text-light);
-            max-width: 600px;
-            margin: 0 auto 40px;
+        .hero p.hero-body {
+            font-size: 1.15rem;
+            color: var(--ink-light);
+            max-width: 540px;
+            margin: 0 auto 44px;
+            line-height: 1.75;
         }
 
         .hero-buttons {
             display: flex;
             justify-content: center;
-            gap: 16px;
+            gap: 12px;
             flex-wrap: wrap;
+            margin-bottom: 64px;
         }
 
         .btn {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            padding: 16px 32px;
-            border-radius: 12px;
+            gap: 9px;
+            padding: 14px 26px;
+            border-radius: 14px;
             text-decoration: none;
             font-weight: 600;
+            font-size: 0.94rem;
             transition: all 0.2s;
+            cursor: pointer;
+            border: none;
         }
 
-        .btn-primary {
-            background: var(--primary);
-            color: white;
+        .btn svg { width: 21px; height: 21px; flex-shrink: 0; }
+
+        .btn-dark {
+            background: var(--ink);
+            color: #fff;
         }
 
-        .btn-primary:hover {
-            background: var(--primary-dark);
+        .btn-dark:hover {
+            background: var(--ink-mid);
             transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(15,23,42,0.2);
         }
 
-        .btn-secondary {
-            background: white;
-            color: var(--text);
-            border: 2px solid #e5e7eb;
+        .btn-outline {
+            background: var(--surface);
+            color: var(--ink);
+            border: 1.5px solid var(--border);
         }
 
-        .btn-secondary:hover {
-            border-color: var(--primary);
-            color: var(--primary);
+        .btn-outline:hover {
+            border-color: var(--ink-mid);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.07);
         }
 
-        .btn svg {
-            width: 24px;
-            height: 24px;
+        .btn-accent {
+            background: var(--accent);
+            color: var(--ink);
         }
 
-        /* Features */
-        .features {
-            padding: 80px 0;
+        .btn-accent:hover {
+            background: var(--accent-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(245,158,11,0.3);
         }
 
-        .features h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 60px;
+        .btn-teal {
+            background: var(--teal);
+            color: #fff;
         }
 
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 40px;
+        .btn-teal:hover {
+            background: #0f766e;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(13,148,136,0.25);
         }
 
-        .feature {
-            text-align: center;
-            padding: 32px;
-        }
-
-        .feature-icon {
-            width: 64px;
-            height: 64px;
-            background: var(--bg-alt);
-            border-radius: 16px;
+        /* scroll hint */
+        .scroll-hint {
+            color: var(--ink-light);
+            font-size: 0.76rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            font-size: 2rem;
+            gap: 8px;
+            opacity: 0.5;
         }
 
-        .feature h3 {
-            font-size: 1.25rem;
+        .scroll-hint svg {
+            width: 16px;
+            height: 16px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(5px); }
+        }
+
+        /* ── Section shared ── */
+        section { padding: 96px 0; }
+
+        .section-label {
+            font-size: 0.73rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--teal);
             margin-bottom: 12px;
         }
 
-        .feature p {
-            color: var(--text-light);
-        }
-
-        /* CTA */
-        .cta {
-            padding: 80px 0;
-            background: var(--primary);
-            color: white;
-            text-align: center;
-        }
-
-        .cta h2 {
-            font-size: 2.5rem;
+        .section-title {
+            font-size: clamp(1.9rem, 4vw, 2.75rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.15;
+            color: var(--ink);
             margin-bottom: 16px;
         }
 
-        .cta p {
-            opacity: 0.9;
-            margin-bottom: 32px;
-            font-size: 1.125rem;
+        .section-desc {
+            font-size: 1.05rem;
+            color: var(--ink-light);
+            max-width: 500px;
+            line-height: 1.75;
         }
 
-        .cta .btn {
-            background: white;
-            color: var(--primary);
+        .check-list {
+            margin-top: 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
-        .cta .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        .check-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: var(--ink-mid);
         }
 
-        /* Footer */
+        .check-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 6px;
+            background: var(--teal-bg);
+            color: var(--teal);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            flex-shrink: 0;
+        }
+
+        /* ── Email import ── */
+        .email-section { background: var(--surface-alt); }
+
+        .email-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .email-steps {
+            margin-top: 36px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .email-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .step-num {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            background: var(--purple-bg);
+            border: 1px solid #c7d2fe;
+            color: var(--purple);
+            font-size: 0.82rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .email-step h4 { font-size: 0.92rem; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+        .email-step p { font-size: 0.84rem; color: var(--ink-light); }
+
+        .email-visual {
+            background: var(--surface);
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            padding: 26px;
+            box-shadow: 0 24px 64px rgba(0,0,0,0.07);
+        }
+
+        .email-card {
+            background: var(--surface-alt);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 10px;
+            border: 1px solid var(--border);
+        }
+
+        .email-card:last-child { margin-bottom: 0; }
+
+        .email-card-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .email-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .email-icon.flight { background: #ede9fe; }
+        .email-icon.hotel { background: #ccfbf1; }
+        .email-icon.car { background: #fef3c7; }
+
+        .email-card-title { font-size: 0.83rem; color: var(--ink); font-weight: 600; }
+        .email-card-sub { font-size: 0.73rem; color: var(--ink-light); }
+
+        .email-tag {
+            display: inline-block;
+            font-size: 0.69rem;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 100px;
+        }
+
+        .tag-flight { background: #ede9fe; color: #6366f1; }
+        .tag-hotel { background: #ccfbf1; color: #0d9488; }
+        .tag-car { background: #fef3c7; color: #d97706; }
+
+        .email-inbox-label {
+            font-size: 0.69rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--ink-light);
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .inbox-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--teal);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* ── Features ── */
+        .features { background: var(--surface); }
+
+        .features-header { text-align: center; margin-bottom: 60px; }
+        .features-header .section-desc { margin: 0 auto; }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .feature-card {
+            background: var(--surface-alt);
+            border-radius: 20px;
+            padding: 28px;
+            border: 1px solid var(--border);
+            transition: all 0.25s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.07);
+            border-color: var(--border-light);
+            background: var(--surface);
+        }
+
+        .feature-emoji {
+            font-size: 1.8rem;
+            margin-bottom: 14px;
+            display: block;
+        }
+
+        .feature-card h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--ink);
+        }
+
+        .feature-card p {
+            font-size: 0.87rem;
+            color: var(--ink-light);
+            line-height: 1.65;
+        }
+
+        /* ── Timeline ── */
+        .timeline-section { background: var(--surface-alt); }
+
+        .timeline-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .timeline-visual {
+            background: var(--surface);
+            border-radius: 24px;
+            padding: 28px 22px;
+            border: 1px solid var(--border);
+            box-shadow: 0 20px 56px rgba(0,0,0,0.07);
+        }
+
+        .timeline-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .trip-name { font-size: 0.97rem; font-weight: 700; color: var(--ink); }
+        .trip-dates { font-size: 0.77rem; color: var(--ink-light); margin-top: 1px; }
+
+        .weather-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: #fefce8;
+            border: 1px solid #fde68a;
+            border-radius: 100px;
+            padding: 4px 12px;
+            font-size: 0.77rem;
+            color: #92400e;
+            font-weight: 500;
+        }
+
+        .day-row {
+            background: var(--surface-alt);
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .day-label {
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--ink-light);
+            margin-bottom: 10px;
+        }
+
+        .item-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 7px 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .item-row:last-child { border-bottom: none; }
+
+        .item-badge {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .badge-flight { background: #ede9fe; }
+        .badge-hotel { background: #ccfbf1; }
+        .badge-food { background: #fef3c7; }
+        .badge-activity { background: #ffe4e6; }
+
+        .item-info { flex: 1; min-width: 0; }
+        .item-title { font-size: 0.82rem; font-weight: 600; color: var(--ink); }
+        .item-detail { font-size: 0.72rem; color: var(--ink-light); }
+
+        .item-time {
+            font-size: 0.72rem;
+            color: var(--ink-light);
+            font-variant-numeric: tabular-nums;
+            flex-shrink: 0;
+        }
+
+        /* ── Travelers ── */
+        .travelers-section { background: var(--surface); }
+
+        .travelers-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .share-card {
+            background: var(--surface-alt);
+            border-radius: 20px;
+            padding: 26px;
+            border: 1px solid var(--border);
+            box-shadow: 0 16px 48px rgba(0,0,0,0.06);
+        }
+
+        .share-header {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--ink-light);
+            margin-bottom: 16px;
+        }
+
+        .traveler-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+
+        .traveler-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            border-radius: 11px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+        }
+
+        .t-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .t-name { font-size: 0.88rem; font-weight: 600; color: var(--ink); }
+        .t-role { font-size: 0.73rem; color: var(--ink-light); }
+
+        .t-badge {
+            margin-left: auto;
+            font-size: 0.69rem;
+            padding: 3px 10px;
+            border-radius: 100px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .badge-owner { background: #ede9fe; color: #6366f1; }
+        .badge-edit { background: #ccfbf1; color: #0d9488; }
+        .badge-view { background: var(--border-light); color: var(--ink-light); }
+
+        .share-link-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            padding: 10px 14px;
+        }
+
+        .share-url {
+            flex: 1;
+            font-size: 0.78rem;
+            color: var(--teal);
+            font-family: monospace;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .copy-btn {
+            font-size: 0.73rem;
+            font-weight: 600;
+            color: var(--ink-mid);
+            background: var(--surface-alt);
+            border: 1px solid var(--border);
+            padding: 4px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        /* ── AI / Intelligence ── */
+        .ai-section { background: var(--surface-alt); }
+
+        .ai-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .ai-cards { display: flex; flex-direction: column; gap: 12px; }
+
+        .ai-card {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 18px;
+            border: 1px solid var(--border);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .ai-card-top {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .ai-dot {
+            width: 26px;
+            height: 26px;
+            border-radius: 7px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+
+        .ai-card-label { font-size: 0.72rem; font-weight: 700; color: var(--purple); text-transform: uppercase; letter-spacing: 0.06em; }
+        .ai-card-text { font-size: 0.86rem; color: var(--ink-mid); line-height: 1.55; }
+
+        .suggestion-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            margin-top: 10px;
+        }
+
+        .chip {
+            background: var(--surface-alt);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            padding: 4px 12px;
+            font-size: 0.76rem;
+            color: var(--ink-mid);
+            font-weight: 500;
+        }
+
+        /* ── CTA ── */
+        .cta-section {
+            background: linear-gradient(150deg, #f0fdfa 0%, #e0f2fe 50%, #fdf4ff 100%);
+            text-align: center;
+            padding: 112px 0;
+            position: relative;
+            overflow: hidden;
+            border-top: 1px solid var(--border);
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 50% 60% at 30% 50%, rgba(99,102,241,0.05) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 50% at 70% 50%, rgba(13,148,136,0.05) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .cta-section h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            color: var(--ink);
+            letter-spacing: -0.03em;
+            margin-bottom: 14px;
+        }
+
+        .cta-section p {
+            font-size: 1.1rem;
+            color: var(--ink-light);
+            max-width: 460px;
+            margin: 0 auto 44px;
+        }
+
+        .store-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        /* ── Footer ── */
         footer {
-            padding: 40px 0;
-            background: var(--bg-alt);
-            border-top: 1px solid #e5e7eb;
+            padding: 36px 0;
+            background: var(--surface-alt);
+            border-top: 1px solid var(--border);
         }
 
         footer .container {
@@ -229,154 +797,408 @@
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        footer .links a {
-            color: var(--text-light);
-            text-decoration: none;
-            margin-left: 24px;
-        }
-
-        footer .links a:hover {
-            color: var(--primary);
+            gap: 16px;
         }
 
         footer .copyright {
-            color: var(--text-light);
+            color: var(--ink-light);
+            font-size: 0.83rem;
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5rem;
+        footer .links { display: flex; gap: 4px; flex-wrap: wrap; }
+
+        footer .links a {
+            color: var(--ink-light);
+            text-decoration: none;
+            font-size: 0.83rem;
+            padding: 4px 10px;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        footer .links a:hover { color: var(--ink); background: var(--border); }
+
+        /* ── Responsive ── */
+        @media (max-width: 900px) {
+            .email-layout,
+            .timeline-layout,
+            .travelers-layout,
+            .ai-layout {
+                grid-template-columns: 1fr;
+                gap: 48px;
             }
 
-            .hero-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
+            .features-grid { grid-template-columns: repeat(2, 1fr); }
+        }
 
-            header .container {
-                flex-direction: column;
-                gap: 16px;
-            }
-
-            nav a {
-                margin: 0 16px;
-            }
-
-            footer .container {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            footer .links a {
-                margin: 0 12px;
-            }
+        @media (max-width: 640px) {
+            section { padding: 72px 0; }
+            .hero { padding: 120px 0 72px; }
+            .features-grid { grid-template-columns: 1fr; }
+            header .container { flex-direction: column; gap: 10px; }
+            nav { flex-wrap: wrap; justify-content: center; }
+            footer .container { flex-direction: column; text-align: center; }
+            footer .links { justify-content: center; }
         }
     </style>
 </head>
 <body>
+
+    <!-- Header -->
     <header>
         <div class="container">
             <a href="/" class="logo">
-                <img src="/icon.png" alt="Itinirare">
+                <img src="/favicon.png" alt="Itinirare">
                 <span>Itinirare</span>
             </a>
             <nav>
                 <a href="#features">Features</a>
                 <a href="/privacy">Privacy</a>
                 <a href="/terms">Terms</a>
-                <a href="mailto:support@itinirare.com">Support</a>
+                <a href="#download" class="nav-cta">Download</a>
             </nav>
         </div>
     </header>
 
+    <!-- Hero -->
     <section class="hero">
         <div class="container">
-            <h1>Plan Your <span>Perfect Trip</span></h1>
-            <p>Create beautiful itineraries, organize travel documents, and share your adventures with friends and family. All in one app.</p>
+            <div class="hero-eyebrow">✦ Available on iOS &amp; Android</div>
+            <h1>All your bookings,<br><span class="highlight">beautifully in one place.</span></h1>
+            <p class="hero-sub">Not a trip planner. A travel companion.</p>
+            <p class="hero-body">Flights, hotels, restaurants, activities — everything you've already booked, organized into a clean day-by-day timeline. Just forward your confirmation emails and Itinirare does the rest.</p>
             <div class="hero-buttons">
-                <a href="#" class="btn btn-primary" id="app-store-btn">
+                <a href="#" class="btn btn-dark" id="app-store-btn">
                     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-                    App Store
+                    Download on App Store
                 </a>
-                <a href="#" class="btn btn-secondary" id="play-store-btn">
+                <a href="#" class="btn btn-outline" id="play-store-btn">
                     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"/></svg>
-                    Play Store
+                    Get it on Google Play
                 </a>
+            </div>
+            <div class="scroll-hint">
+                <span>See what's inside</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
             </div>
         </div>
     </section>
 
+    <!-- Email Import -->
+    <section class="email-section">
+        <div class="container">
+            <div class="email-layout">
+                <div class="email-content">
+                    <div class="section-label">The magic behind Itinirare</div>
+                    <h2 class="section-title">Just forward<br>the email.</h2>
+                    <p class="section-desc">Got a booking confirmation? Forward it to your Itinirare inbox. We extract every detail — dates, confirmation codes, locations — and place it in the right trip automatically.</p>
+                    <div class="email-steps">
+                        <div class="email-step">
+                            <div class="step-num">1</div>
+                            <div>
+                                <h4>Book as you always do</h4>
+                                <p>Book flights, hotels, restaurants anywhere you like — nothing changes on your end.</p>
+                            </div>
+                        </div>
+                        <div class="email-step">
+                            <div class="step-num">2</div>
+                            <div>
+                                <h4>Forward the confirmation</h4>
+                                <p>Forward the booking email (or a PDF attachment) to your personal Itinirare address. We handle the rest.</p>
+                            </div>
+                        </div>
+                        <div class="email-step">
+                            <div class="step-num">3</div>
+                            <div>
+                                <h4>It appears in your trip</h4>
+                                <p>Parsed, matched to the right trip by date, and added to your timeline — instantly.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-visual">
+                    <div class="email-inbox-label">
+                        <span class="inbox-dot"></span>
+                        Itinirare inbox · 3 new
+                    </div>
+                    <div class="email-card">
+                        <div class="email-card-header">
+                            <div class="email-icon flight">✈️</div>
+                            <div>
+                                <div class="email-card-title">Air France · Booking Confirmation</div>
+                                <div class="email-card-sub">no-reply@airfrance.com · Just now</div>
+                            </div>
+                        </div>
+                        <span class="email-tag tag-flight">Flight · CDG → JFK · Apr 2</span>
+                    </div>
+                    <div class="email-card">
+                        <div class="email-card-header">
+                            <div class="email-icon hotel">🏨</div>
+                            <div>
+                                <div class="email-card-title">The Hoxton, NYC — Your stay</div>
+                                <div class="email-card-sub">reservations@thehoxton.com · 2 min ago</div>
+                            </div>
+                        </div>
+                        <span class="email-tag tag-hotel">Hotel · Apr 2–6 · Conf. #THX4821</span>
+                    </div>
+                    <div class="email-card">
+                        <div class="email-card-header">
+                            <div class="email-icon car">🚗</div>
+                            <div>
+                                <div class="email-card-title">Hertz Rental — Reservation Ready</div>
+                                <div class="email-card-sub">hertz@notifications.com · 10 min ago</div>
+                            </div>
+                        </div>
+                        <span class="email-tag tag-car">Car Rental · Apr 3 · JFK Airport</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
     <section class="features" id="features">
         <div class="container">
-            <h2>Everything You Need for Your Trip</h2>
+            <div class="features-header">
+                <div class="section-label">What Itinirare does</div>
+                <h2 class="section-title">Your travel, all in one place</h2>
+                <p class="section-desc">Every booking type, every detail, every co-traveler — organized the way you think about your trip.</p>
+            </div>
             <div class="features-grid">
-                <div class="feature">
-                    <div class="feature-icon">📋</div>
-                    <h3>Smart Itineraries</h3>
-                    <p>Create detailed day-by-day plans with activities, reservations, and notes. Keep everything organized in one place.</p>
+                <div class="feature-card">
+                    <span class="feature-emoji">🗓️</span>
+                    <h3>Day-by-Day Timeline</h3>
+                    <p>Your entire trip as a clean daily view. Flights, hotels, restaurants, activities — each with the right icon, time, and details. No spreadsheet needed.</p>
                 </div>
-                <div class="feature">
-                    <div class="feature-icon">📄</div>
-                    <h3>Document Storage</h3>
-                    <p>Store boarding passes, hotel confirmations, and travel documents. Access them offline when you need them most.</p>
+                <div class="feature-card">
+                    <span class="feature-emoji">📬</span>
+                    <h3>Email-Driven Import</h3>
+                    <p>Forward any booking confirmation and watch it land in your trip, fully parsed — confirmation code, dates, location and all.</p>
                 </div>
-                <div class="feature">
-                    <div class="feature-icon">👥</div>
-                    <h3>Share with Friends</h3>
-                    <p>Collaborate on trip planning with travel companions. Everyone stays in sync with real-time updates.</p>
+                <div class="feature-card">
+                    <span class="feature-emoji">🌤️</span>
+                    <h3>Weather &amp; Local Holidays</h3>
+                    <p>See the forecast for each day, right where you'll be. Local public holidays surface automatically so you're never caught off guard.</p>
                 </div>
-                <div class="feature">
-                    <div class="feature-icon">🗺️</div>
-                    <h3>Interactive Maps</h3>
-                    <p>See all your destinations on a map. Get directions and discover nearby attractions.</p>
+                <div class="feature-card">
+                    <span class="feature-emoji">👥</span>
+                    <h3>Travelers &amp; Sharing</h3>
+                    <p>Add co-travelers and assign bookings to each person. Share via a link — view-only or editable — no account needed for recipients.</p>
                 </div>
-                <div class="feature">
-                    <div class="feature-icon">🔔</div>
-                    <h3>Smart Reminders</h3>
-                    <p>Never miss a flight or reservation. Get timely notifications for all your travel events.</p>
+                <div class="feature-card">
+                    <span class="feature-emoji">✨</span>
+                    <h3>AI Day Tips</h3>
+                    <p>Smart, day-specific tips and curated place picks — restaurants, activities, hidden gems — tailored to your destination and dates.</p>
                 </div>
-                <div class="feature">
-                    <div class="feature-icon">✈️</div>
-                    <h3>Offline Access</h3>
-                    <p>Access your itineraries even without internet. Perfect for international travel or remote destinations.</p>
+                <div class="feature-card">
+                    <span class="feature-emoji">🔗</span>
+                    <h3>Every Booking Type</h3>
+                    <p>Flights, hotels, car rentals, cruises, trains, restaurants, tours, activities, meetings — every type supported, with its own icon and display.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="cta">
+    <!-- Timeline Visual -->
+    <section class="timeline-section">
         <div class="container">
-            <h2>Start Planning Your Next Adventure</h2>
-            <p>Download Itinirare today and experience stress-free travel planning.</p>
-            <a href="#" class="btn">Download Free</a>
+            <div class="timeline-layout">
+                <div>
+                    <div class="section-label">Your trip at a glance</div>
+                    <h2 class="section-title">A timeline that thinks like a traveler</h2>
+                    <p class="section-desc">Stop hunting through confirmation emails for your hotel address or gate number. Itinirare lays out every reservation in order, day by day, with weather baked right in.</p>
+                    <div class="check-list">
+                        <div class="check-item"><span class="check-icon">✓</span> Confirmation codes always one tap away</div>
+                        <div class="check-item"><span class="check-icon">✓</span> Multi-day items (hotels, cruises) span correctly</div>
+                        <div class="check-item"><span class="check-icon">✓</span> Per-traveler color coding at a glance</div>
+                        <div class="check-item"><span class="check-icon">✓</span> Works offline — no signal, no problem</div>
+                    </div>
+                </div>
+                <div class="timeline-visual">
+                    <div class="timeline-header-row">
+                        <div>
+                            <div class="trip-name">New York City 🗽</div>
+                            <div class="trip-dates">Apr 2 – Apr 9 · 7 nights</div>
+                        </div>
+                        <div class="weather-chip">🌤️ 14°C · Partly cloudy</div>
+                    </div>
+                    <div class="day-row">
+                        <div class="day-label">Wednesday, Apr 2</div>
+                        <div class="item-row">
+                            <div class="item-badge badge-flight">✈️</div>
+                            <div class="item-info">
+                                <div class="item-title">CDG → JFK · Air France</div>
+                                <div class="item-detail">Conf. AF4821 · Terminal 2E</div>
+                            </div>
+                            <div class="item-time">08:45</div>
+                        </div>
+                        <div class="item-row">
+                            <div class="item-badge badge-hotel">🏨</div>
+                            <div class="item-info">
+                                <div class="item-title">The Hoxton NYC</div>
+                                <div class="item-detail">Check-in · Conf. THX4821</div>
+                            </div>
+                            <div class="item-time">15:00</div>
+                        </div>
+                    </div>
+                    <div class="day-row">
+                        <div class="day-label">Thursday, Apr 3</div>
+                        <div class="item-row">
+                            <div class="item-badge badge-food">🍽️</div>
+                            <div class="item-info">
+                                <div class="item-title">Le Bernardin · Lunch</div>
+                                <div class="item-detail">Reservation · 2 guests</div>
+                            </div>
+                            <div class="item-time">12:30</div>
+                        </div>
+                        <div class="item-row">
+                            <div class="item-badge badge-activity">🎭</div>
+                            <div class="item-info">
+                                <div class="item-title">Broadway · Hamilton</div>
+                                <div class="item-detail">Richard Rodgers Theatre</div>
+                            </div>
+                            <div class="item-time">19:00</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
+    <!-- Travelers & Sharing -->
+    <section class="travelers-section">
+        <div class="container">
+            <div class="travelers-layout">
+                <div class="share-card">
+                    <div class="share-header">NYC Trip · Shared with</div>
+                    <div class="traveler-list">
+                        <div class="traveler-row">
+                            <div class="t-avatar" style="background:#6366f1;">R</div>
+                            <div>
+                                <div class="t-name">Raphi</div>
+                                <div class="t-role">Trip owner</div>
+                            </div>
+                            <span class="t-badge badge-owner">Owner</span>
+                        </div>
+                        <div class="traveler-row">
+                            <div class="t-avatar" style="background:#0d9488;">S</div>
+                            <div>
+                                <div class="t-name">Sarah</div>
+                                <div class="t-role">Can edit</div>
+                            </div>
+                            <span class="t-badge badge-edit">Edit</span>
+                        </div>
+                        <div class="traveler-row">
+                            <div class="t-avatar" style="background:#f59e0b;">M</div>
+                            <div>
+                                <div class="t-name">Marc</div>
+                                <div class="t-role">View only</div>
+                            </div>
+                            <span class="t-badge badge-view">View</span>
+                        </div>
+                    </div>
+                    <div class="share-header" style="margin-top:4px;">Share link</div>
+                    <div class="share-link-row">
+                        <span class="share-url">itinirare.app/t/nyc-apr-2026</span>
+                        <span class="copy-btn">Copy</span>
+                    </div>
+                </div>
+                <div>
+                    <div class="section-label">For everyone on the trip</div>
+                    <h2 class="section-title">Travel together,<br>stay in sync</h2>
+                    <p class="section-desc">Add everyone on the trip and assign bookings to the right people. Share a link — they get the full itinerary without needing to install a thing.</p>
+                    <div class="check-list">
+                        <div class="check-item"><span class="check-icon">✓</span> View or edit links — you control access</div>
+                        <div class="check-item"><span class="check-icon">✓</span> Set link expiry — share for a limited time</div>
+                        <div class="check-item"><span class="check-icon">✓</span> No account needed for recipients</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI / Intelligence -->
+    <section class="ai-section">
+        <div class="container">
+            <div class="ai-layout">
+                <div>
+                    <div class="section-label">Your smart travel companion</div>
+                    <h2 class="section-title">Tips and ideas for<br>every day of your trip</h2>
+                    <p class="section-desc">Itinirare knows where you'll be and when. So it surfaces relevant day-specific tips, great spots nearby, and curated suggestions — without you lifting a finger.</p>
+                    <div class="check-list">
+                        <div class="check-item"><span class="check-icon">✓</span> Tips tailored to your destination and preferences</div>
+                        <div class="check-item"><span class="check-icon">✓</span> Place suggestions with ratings and opening hours</div>
+                        <div class="check-item"><span class="check-icon">✓</span> Local holiday alerts baked into your timeline</div>
+                    </div>
+                </div>
+                <div class="ai-cards">
+                    <div class="ai-card">
+                        <div class="ai-card-top">
+                            <div class="ai-dot">✦</div>
+                            <div class="ai-card-label">Day tip · Apr 3 · New York</div>
+                        </div>
+                        <p class="ai-card-text">The Whitney Museum is usually quiet before noon on Thursdays. A great morning stop before your Le Bernardin lunch reservation.</p>
+                    </div>
+                    <div class="ai-card">
+                        <div class="ai-card-top">
+                            <div class="ai-dot">🍽️</div>
+                            <div class="ai-card-label">Suggestions · Dinner · Near hotel</div>
+                        </div>
+                        <p class="ai-card-text">Top picks for tonight in SoHo:</p>
+                        <div class="suggestion-chips">
+                            <span class="chip">🌮 Los Tacos No.1</span>
+                            <span class="chip">🍜 Momofuku Ko</span>
+                            <span class="chip">🥩 Carbone</span>
+                        </div>
+                    </div>
+                    <div class="ai-card">
+                        <div class="ai-card-top">
+                            <div class="ai-dot">🌤️</div>
+                            <div class="ai-card-label">Weather heads-up · Your trip</div>
+                        </div>
+                        <p class="ai-card-text">Rain expected in NYC on Saturday, Apr 5. You have no bookings that day — a good moment to plan something indoors.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section" id="download">
+        <div class="container">
+            <h2>Your next trip, already organized.</h2>
+            <p>Download Itinirare on iOS or Android and take your travel companion wherever you go.</p>
+            <div class="store-buttons">
+                <a href="#" class="btn btn-dark" id="cta-app-store">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                    Download on App Store
+                </a>
+                <a href="#" class="btn btn-teal" id="cta-play-store">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"/></svg>
+                    Get it on Google Play
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
     <footer>
         <div class="container">
             <div class="copyright">© 2026 Itinirare. All rights reserved.</div>
             <div class="links">
                 <a href="/privacy">Privacy Policy</a>
                 <a href="/terms">Terms of Service</a>
-                <a href="mailto:info@itinirare.com">Contact</a>
+                <a href="mailto:hello@itinirare.app">Contact</a>
             </div>
         </div>
     </footer>
 
     <script>
-        // Store links will be added when apps are published
-        document.getElementById('app-store-btn').addEventListener('click', (e) => {
-            e.preventDefault();
-            alert('Coming soon to the App Store!');
-        });
-        document.getElementById('play-store-btn').addEventListener('click', (e) => {
-            e.preventDefault();
-            alert('Coming soon to Google Play!');
-        });
+        // Replace href="#" with actual store URLs when available
+        // document.getElementById('app-store-btn').href = 'https://apps.apple.com/...';
+        // document.getElementById('play-store-btn').href = 'https://play.google.com/...';
+        // document.getElementById('cta-app-store').href = 'https://apps.apple.com/...';
+        // document.getElementById('cta-play-store').href = 'https://play.google.com/...';
     </script>
 </body>
 </html>
