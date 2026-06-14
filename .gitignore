@@ -1,3 +1,8 @@
 .vercel
 .DS_Store
 .claude/
+
+# Demo video build artifacts (regenerate with video/make_video.py)
+video/clip_*.mp4
+video/concat.txt
+video/preview_frame.png
